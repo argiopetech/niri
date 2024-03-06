@@ -870,6 +870,13 @@ impl State {
 
         pointer.frame(self);
 
+        if let Some(window) = self.niri.window_under_cursor() {
+            let window = window.clone();
+            self.niri.layout.activate_window(&window);
+        } else if let Some(output) = self.niri.output_under_cursor() {
+            self.niri.layout.activate_output(&output);
+        }
+
         // Redraw to update the cursor position.
         // FIXME: redraw only outputs overlapping the cursor.
         self.niri.queue_redraw_all();
